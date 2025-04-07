@@ -10,9 +10,13 @@ export class LanqiaoProblemParser extends Parser {
 
   public async parse(url: string, html: string): Promise<Sendable> {
     const doc = htmlToElement(html);
+    const problemId = url.split('/')[4];
+    console.log(problemId);
     const task = new TaskBuilder('Lanqiao').setUrl(url);
 
-    const title = doc.querySelector('.course-name').textContent;
+    // const title = doc.querySelector('.course-name').textContent;
+    const title = `LanQiaoProblem_${problemId}`;
+    console.log(title);
     task.setName(title.replace(/\s+/g, ' ').trim());
 
     const limitStr = doc.querySelector('#运行限制').nextElementSibling.textContent;
