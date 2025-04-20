@@ -20,12 +20,23 @@ export class VirtualJudgeProblemParser extends Parser {
     const elem = htmlToElement(html);
     const task = new TaskBuilder('Virtual Judge').setUrl(url);
 
+    console.log('url', url);
+
+    const url_split = url.split('/');
+    console.log('url_split', url_split);
+
     if (elem.querySelector('#problem-title') === null) {
       task.setName(elem.querySelector('#prob-title > h2').textContent.trim());
       task.setCategory(window.location.href.split('/').pop().split('-')[0]);
     } else {
       task.setName(elem.querySelector('h2#problem-title').textContent.trim());
       task.setCategory(elem.querySelector('#time-info > .row > .col-xs-6 > h3').textContent.trim());
+    }
+
+    if (url_split[3] == 'problem') {
+      const problemId = url_split[4];
+      task.setName(problemId);
+      // task.setCategory(elem.querySelector('#time-info > .row > .col-xs-6 > h3').textContent.trim());
     }
 
     const timeLimitDt = [...elem.querySelectorAll('dt')].find(el =>
